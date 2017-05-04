@@ -181,9 +181,9 @@ describe('DayPickerRangeController', () => {
               const deleteModifierFromRangeSpy =
                 sinon.spy(DayPickerRangeController.prototype, 'deleteModifierFromRange');
               const startDate = today;
-              const dayAfterStartDate = startDate.clone().add(1, 'day');
               const newStartDate = moment().add(7, 'days');
               const endDate = moment().add(10, 'days');
+              const dayAfterEndDate = endDate.clone().add(1, 'day');
               const wrapper = shallow(
                 <DayPickerRangeController {...props} startDate={startDate} endDate={endDate} />,
               );
@@ -192,12 +192,11 @@ describe('DayPickerRangeController', () => {
                 startDate: newStartDate,
                 endDate,
               });
-
               const selectedSpanCalls =
                 getCallsByModifier(deleteModifierFromRangeSpy, 'selected-span');
               expect(selectedSpanCalls.length).to.equal(1);
-              expect(isSameDay(selectedSpanCalls[0].args[1], dayAfterStartDate)).to.equal(true);
-              expect(selectedSpanCalls[0].args[2]).to.equal(endDate);
+              expect(selectedSpanCalls[0].args[1]).to.equal(startDate);
+              expect(isSameDay(selectedSpanCalls[0].args[2], dayAfterEndDate)).to.equal(true);
             });
           });
 
@@ -231,8 +230,8 @@ describe('DayPickerRangeController', () => {
               const deleteModifierFromRangeSpy =
                 sinon.spy(DayPickerRangeController.prototype, 'deleteModifierFromRange');
               const startDate = today;
-              const dayAfterStartDate = startDate.clone().add(1, 'day');
               const endDate = today.clone().add(10, 'days');
+              const dayAfterEndDate = endDate.clone().add(1, 'day');
               const wrapper = shallow(
                 <DayPickerRangeController {...props} startDate={startDate} endDate={endDate} />,
               );
@@ -243,8 +242,8 @@ describe('DayPickerRangeController', () => {
               });
               const selectedSpanCalls = getCallsByModifier(deleteModifierFromRangeSpy, 'selected-span');
               expect(selectedSpanCalls.length).to.equal(1);
-              expect(isSameDay(selectedSpanCalls[0].args[1], dayAfterStartDate)).to.equal(true);
-              expect(selectedSpanCalls[0].args[2]).to.equal(endDate);
+              expect(selectedSpanCalls[0].args[1]).to.equal(startDate);
+              expect(isSameDay(selectedSpanCalls[0].args[2], dayAfterEndDate)).to.equal(true);
             });
           });
 
@@ -1038,6 +1037,7 @@ describe('DayPickerRangeController', () => {
           it('calls deleteModifierFromRange with startDate, old hoverDate and `hovered-span`', () => {
             const startDate = today;
             const hoverDate = today.clone().add(5, 'days');
+            const dayAfterHoverDate = hoverDate.clone().add(1, 'day');
             const deleteModifierFromRangeSpy =
               sinon.spy(DayPickerRangeController.prototype, 'deleteModifierFromRange');
             const wrapper = shallow(
@@ -1052,10 +1052,10 @@ describe('DayPickerRangeController', () => {
             wrapper.setState({ hoverDate });
             deleteModifierFromRangeSpy.reset();
             wrapper.instance().onDayMouseEnter(moment().add(10, 'days'));
-            expect(deleteModifierFromRangeSpy.callCount).to.equal(1);
-            expect(deleteModifierFromRangeSpy.getCall(0).args[1]).to.equal(startDate);
-            expect(deleteModifierFromRangeSpy.getCall(0).args[2]).to.equal(hoverDate);
-            expect(deleteModifierFromRangeSpy.getCall(0).args[3]).to.equal('hovered-span');
+            const hoverSpanCalls = getCallsByModifier(deleteModifierFromRangeSpy, 'hovered-span');
+            expect(hoverSpanCalls.length).to.equal(1);
+            expect(hoverSpanCalls[0].args[1]).to.equal(startDate);
+            expect(isSameDay(hoverSpanCalls[0].args[2], dayAfterHoverDate)).to.equal(true);
           });
         });
 
@@ -1063,6 +1063,7 @@ describe('DayPickerRangeController', () => {
           it('calls addModifierFromRange with startDate, new hoverDate, and `hovered-span`', () => {
             const startDate = today;
             const hoverDate = today.clone().add(5, 'days');
+            const dayAfterHoverDate = hoverDate.clone().add(1, 'day');
             const addModifierToRangeSpy =
               sinon.spy(DayPickerRangeController.prototype, 'addModifierToRange');
             const wrapper = shallow(
@@ -1077,10 +1078,10 @@ describe('DayPickerRangeController', () => {
             wrapper.setState({ hoverDate: null });
             addModifierToRangeSpy.reset();
             wrapper.instance().onDayMouseEnter(hoverDate);
-            expect(addModifierToRangeSpy.callCount).to.equal(1);
-            expect(addModifierToRangeSpy.getCall(0).args[1]).to.equal(startDate);
-            expect(addModifierToRangeSpy.getCall(0).args[2]).to.equal(hoverDate);
-            expect(addModifierToRangeSpy.getCall(0).args[3]).to.equal('hovered-span');
+            const hoverSpanCalls = getCallsByModifier(addModifierToRangeSpy, 'hovered-span');
+            expect(hoverSpanCalls.length).to.equal(1);
+            expect(hoverSpanCalls[0].args[1]).to.equal(startDate);
+            expect(isSameDay(hoverSpanCalls[0].args[2], dayAfterHoverDate)).to.equal(true);
           });
         });
       });
@@ -1171,6 +1172,7 @@ describe('DayPickerRangeController', () => {
       it('calls deleteModifierFromRange with startDate, hoverDate and `hovered-span`', () => {
         const startDate = today;
         const hoverDate = today.clone().add(5, 'days');
+        const dayAfterHoverDate = hoverDate.clone().add(1, 'day');
         const deleteModifierFromRangeSpy =
           sinon.spy(DayPickerRangeController.prototype, 'deleteModifierFromRange');
         const wrapper = shallow(
@@ -1184,10 +1186,10 @@ describe('DayPickerRangeController', () => {
         wrapper.setState({ hoverDate });
         deleteModifierFromRangeSpy.reset();
         wrapper.instance().onDayMouseLeave(today);
-        expect(deleteModifierFromRangeSpy.callCount).to.equal(1);
-        expect(deleteModifierFromRangeSpy.getCall(0).args[1]).to.equal(startDate);
-        expect(deleteModifierFromRangeSpy.getCall(0).args[2]).to.equal(hoverDate);
-        expect(deleteModifierFromRangeSpy.getCall(0).args[3]).to.equal('hovered-span');
+        const hoveredSpanCalls = getCallsByModifier(deleteModifierFromRangeSpy, 'hovered-span');
+        expect(hoveredSpanCalls.length).to.equal(1);
+        expect(hoveredSpanCalls[0].args[1]).to.equal(startDate);
+        expect(isSameDay(hoveredSpanCalls[0].args[2], dayAfterHoverDate)).to.equal(true);
       });
     });
 
