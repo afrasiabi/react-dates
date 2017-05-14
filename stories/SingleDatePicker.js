@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import momentJalaali from 'moment-jalaali';
+import momentJalali from 'moment-jalali-date';
 import { storiesOf } from '@kadira/storybook';
 
 import SingleDatePickerWrapper from '../examples/SingleDatePickerWrapper';
@@ -51,8 +51,22 @@ storiesOf('SingleDatePicker (SDP)', module)
     return (
       <SingleDatePickerWrapper
         placeholder="تقویم فارسی"
-        renderMonth={month => momentJalaali(month).format('jMMMM jYYYY')}
-        renderDay={day => momentJalaali(day).format('jD')}
+        renderMonth={month => momentJalali(month).format('jMMMM jYYYY')}
+        renderDay={day => momentJalali(day).format('jD')}
       />
     );
-  });
+  })
+    .addWithInfo('persian calendar', () => {
+        moment.locale('fa');
+        momentJalali.loadPersian();
+        return (
+            <SingleDatePickerWrapper
+                isRTL
+                showClearDate={true}
+                isOutsideRange={() => false}
+                monthFormat='jMMMM jYYYY'
+                placeholder=" فارسی"
+            />
+        );
+    });
+//isOutsideRange={() => false}

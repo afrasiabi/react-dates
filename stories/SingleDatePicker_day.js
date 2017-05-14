@@ -7,6 +7,9 @@ import isSameDay from '../src/utils/isSameDay';
 
 import SingleDatePickerWrapper from '../examples/SingleDatePickerWrapper';
 
+import momentJalali from 'moment-jalali-date';
+
+
 const datesList = [
   moment(),
   moment().add(1, 'days'),
@@ -61,4 +64,22 @@ storiesOf('SDP - Day Props', module)
       renderDay={day => day.format('ddd')}
       autoFocus
     />
-  ));
+  ))
+    .addWithInfo('allows next two weeks only persiaaaaaan',
+
+        () => {
+            moment.locale('fa');
+            momentJalali.loadPersian();
+            return (
+
+                <SingleDatePickerWrapper
+                    isOutsideRange={day =>
+                    !isInclusivelyAfterDay(day, momentJalali()) ||
+                    isInclusivelyAfterDay(day, momentJalali().add(2, 'weeks'))
+                    }
+                    isRTL
+                    showClearDate={true}
+                    monthFormat='jMMMM jYYYY'
+                />
+            )
+        });

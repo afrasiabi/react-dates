@@ -146,6 +146,7 @@ export default class DateInput extends React.Component {
     } = this.props;
 
     const displayText = displayValue || inputValue || dateString || placeholder || '';
+
     const value = inputValue || displayValue || dateString || '';
     const screenReaderMessageId = `DateInput__screen-reader-message-${id}`;
 

@@ -1,8 +1,12 @@
+import moment from 'moment';
+
 export default function getCalendarMonthWeeks(month, enableOutsideDays) {
   // set utc offset to get correct dates in future (when timezone changes)
   const baseDate = month.clone();
-  const firstOfMonth = baseDate.clone().startOf('month').hour(12);
-  const lastOfMonth = baseDate.clone().endOf('month').hour(12);
+  var format=(moment.locale()=='fa')?'jMonth':'month';
+
+  const firstOfMonth = baseDate.clone().startOf(format).hour(12);
+  const lastOfMonth = baseDate.clone().endOf(format).hour(12);
 
   const currentDay = firstOfMonth.clone();
   let currentWeek = [];

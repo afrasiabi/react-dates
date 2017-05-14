@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import shallowCompare from 'react-addons-shallow-compare';
 import moment from 'moment';
+import momentJalali from 'moment-jalali-date';
 import cx from 'classnames';
 import Portal from 'react-portal';
 import { forbidExtraProps } from 'airbnb-prop-types';
@@ -84,12 +85,12 @@ const defaultProps = {
   minimumNights: 1,
   enableOutsideDays: false,
   isDayBlocked: () => false,
-  isOutsideRange: day => !isInclusivelyAfterDay(day, moment()),
+  isOutsideRange: day => !isInclusivelyAfterDay(day,moment()),
   isDayHighlighted: () => false,
 
   // internationalization
   displayFormat: () => moment.localeData().longDateFormat('L'),
-  monthFormat: 'MMMM YYYY',
+  monthFormat:moment.locale()=='fa'?'jMMMM jYYYY': 'MMMM YYYY',
   phrases: DateRangePickerPhrases,
 };
 
@@ -317,7 +318,7 @@ export default class DateRangePicker extends React.Component {
       ? this.onOutsideClick
       : undefined;
     const initialVisibleMonthThunk =
-      initialVisibleMonth || (() => (startDate || endDate || moment()));
+      initialVisibleMonth || (() => (startDate || endDate ||(moment.locale()=='fa'?momentJalali() : moment())));
 
     const closeIcon = customCloseIcon || (<CloseButton />);
 

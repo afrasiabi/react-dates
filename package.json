@@ -1,6 +1,6 @@
 {
-  "name": "react-dates",
-  "version": "11.0.1",
+  "name": "react-dates-jalali",
+  "version": "2.0.1",
   "description": "A responsive and accessible date range picker component built with React",
   "main": "index.js",
   "scripts": {
@@ -39,12 +39,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/airbnb/react-dates.git"
+    "url": "git+https://github.com/jafaryfarzaneh/react-dates-jalali.git"
   },
-  "author": "Maja Wichrowska <maja.wichrowska@airbnb.com>",
+  "author": "farzaneh jafari <jafaryfarzaneh@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/airbnb/react-dates/issues"
+    "url": "https://github.com/jafaryfarzaneh/react-dates-jalali/issues"
   },
   "homepage": "https://github.com/airbnb/react-dates#readme",
   "devDependencies": {
@@ -106,6 +106,7 @@
     "classnames": "^2.2.5",
     "consolidated-events": "^1.0.1",
     "lodash.throttle": "^4.1.1",
+    "moment-jalali-date": "^0.6.1",
     "object.assign": "^4.0.4",
     "object.values": "^1.0.4",
     "prop-types": "^15.5.6",

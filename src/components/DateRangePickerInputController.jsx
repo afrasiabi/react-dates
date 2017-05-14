@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
+import momentJalali from 'moment-jalali-date';
 import momentPropTypes from 'react-moment-proptypes';
 import { forbidExtraProps } from 'airbnb-prop-types';
 
@@ -83,7 +83,7 @@ const defaultProps = {
   keepOpenOnDateSelect: false,
   reopenPickerOnClearDates: false,
   withFullScreenPortal: false,
-  isOutsideRange: day => !isInclusivelyAfterDay(day, moment()),
+  isOutsideRange: day => !isInclusivelyAfterDay(day,moment.locale()=='fa'?momentJalali() : moment()),
   displayFormat: () => moment.localeData().longDateFormat('L'),
 
   onFocusChange() {},

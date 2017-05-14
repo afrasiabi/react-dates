@@ -6,6 +6,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 import momentPropTypes from 'react-moment-proptypes';
 import { forbidExtraProps, nonNegativeInteger } from 'airbnb-prop-types';
 import moment from 'moment';
+import momentJalali from 'moment-jalali-date';
 import cx from 'classnames';
 
 import { CalendarDayPhrases } from '../defaultPhrases';
@@ -48,7 +49,7 @@ const propTypes = forbidExtraProps({
 });
 
 const defaultProps = {
-  month: moment(),
+  month:moment.locale()=='fa'? momentJalali(): moment(),
   isVisible: true,
   enableOutsideDays: false,
   modifiers: {},
@@ -64,7 +65,7 @@ const defaultProps = {
   isFocused: false,
 
   // i18n
-  monthFormat: 'MMMM YYYY', // english locale
+  monthFormat: moment.locale()=='fa' ?'jMMMM jYYYY': 'MMMM YYYY', // english locale
   phrases: CalendarDayPhrases,
 };
 
@@ -130,7 +131,7 @@ export default class CalendarMonth extends React.Component {
                   <CalendarDay
                     day={day}
                     daySize={daySize}
-                    isOutsideDay={!day || day.month() !== month.month()}
+                    isOutsideDay={!day ||( moment.locale()=='fa'? (day.jMonth()!==month.jMonth()): (day.month() !== month.month()))}
                     tabIndex={isVisible && isSameDay(day, focusedDate) ? 0 : -1}
                     isFocused={isFocused}
                     key={dayOfWeek}

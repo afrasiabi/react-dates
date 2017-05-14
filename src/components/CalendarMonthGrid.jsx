@@ -4,6 +4,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 import momentPropTypes from 'react-moment-proptypes';
 import { forbidExtraProps, nonNegativeInteger } from 'airbnb-prop-types';
 import moment from 'moment';
+import momentJalali from 'moment-jalali-date';
 import cx from 'classnames';
 import { addEventListener, removeEventListener } from 'consolidated-events';
 
@@ -54,7 +55,7 @@ const propTypes = forbidExtraProps({
 const defaultProps = {
   enableOutsideDays: false,
   firstVisibleMonthIndex: 0,
-  initialMonth: moment(),
+  initialMonth: moment.locale()=='fa'? momentJalali() : moment(),
   isAnimating: false,
   numberOfMonths: 1,
   modifiers: {},
@@ -71,17 +72,18 @@ const defaultProps = {
   isFocused: false,
 
   // i18n
-  monthFormat: 'MMMM YYYY', // english locale
+  monthFormat:moment.locale()=='fa' ?'jMMMM jYYYY': 'MMMM YYYY', // english locale
   phrases: CalendarDayPhrases,
 };
 
 function getMonths(initialMonth, numberOfMonths) {
-  let month = initialMonth.clone().subtract(1, 'month');
+  var format=moment.locale()=='fa'?'jMonth':'month';
+  let month = initialMonth.clone().subtract(1, format);
 
   const months = [];
   for (let i = 0; i < numberOfMonths + 2; i += 1) {
     months.push(month);
-    month = month.clone().add(1, 'month');
+    month = month.clone().add(1, format);
   }
 
   return months;
@@ -109,18 +111,18 @@ export default class CalendarMonthGrid extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { initialMonth, numberOfMonths } = nextProps;
     const { months } = this.state;
-
-    const hasMonthChanged = !this.props.initialMonth.isSame(initialMonth, 'month');
+    var format=moment.locale()=='fa'?'jMonth':'month';
+    const hasMonthChanged = !this.props.initialMonth.isSame(initialMonth, format);
     const hasNumberOfMonthsChanged = this.props.numberOfMonths !== numberOfMonths;
     let newMonths = months;
 
     if (hasMonthChanged && !hasNumberOfMonthsChanged) {
       if (isAfterDay(initialMonth, this.props.initialMonth)) {
         newMonths = months.slice(1);
-        newMonths.push(months[months.length - 1].clone().add(1, 'month'));
+        newMonths.push(months[months.length - 1].clone().add(1, format));
       } else {
         newMonths = months.slice(0, months.length - 1);
-        newMonths.unshift(months[0].clone().subtract(1, 'month'));
+        newMonths.unshift(months[0].clone().subtract(1, format));
       }
     }
 
