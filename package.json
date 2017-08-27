@@ -1,6 +1,6 @@
 {
   "name": "react-dates-jalali",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "description": "A responsive and accessible date range picker component built with React",
   "main": "index.js",
   "scripts": {
@@ -106,7 +106,7 @@
     "classnames": "^2.2.5",
     "consolidated-events": "^1.0.1",
     "lodash.throttle": "^4.1.1",
-    "moment-jalali-date": "^0.6.1",
+    "moment-jalali-date": "^0.6.3",
     "object.assign": "^4.0.4",
     "object.values": "^1.0.4",
     "prop-types": "^15.5.6",

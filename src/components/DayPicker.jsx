@@ -308,7 +308,7 @@ export default class DayPicker extends React.Component {
 
     onKeyDown(e) {
         var format_w = moment.locale() == 'fa' ? 'week' : 'week';
-        var format_m = moment.locale() == 'fa' ? 'donth' : 'month';
+        var format_m = moment.locale() == 'fa' ? 'month' : 'month';
         var format_d = moment.locale() == 'fa' ? 'day' : 'day';
 
         e.stopPropagation();
@@ -694,7 +694,7 @@ export default class DayPicker extends React.Component {
         for (let i = 0; i < 7; i += 1) {
             header.push(
                 <li key={i} style={{width: daySize}}>
-                    <small>{ moment.locale() == 'fa' ? moment().weekday(i).format('dddd') : moment().weekday(i).format('dd')}</small>
+                    <small>{  moment().weekday(i).format('dd')}</small>
                 </li>,
             );
         }
